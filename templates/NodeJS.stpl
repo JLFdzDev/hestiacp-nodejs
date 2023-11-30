@@ -1,0 +1,32 @@
+server {
+    listen %ip%:%proxy_port%;
+    server_name %domain_idn% %alias_idn%;
+    return 301 https://%domain_idn%$request_uri;
+}
+
+server {
+    listen %ip%:%proxy_ssl_port% http2 ssl;
+    server_name %domain_idn% %alias_idn%;
+    ssl_certificate %ssl_pem%;
+    ssl_certificate_key %ssl_key%;
+    error_log /var/log/%web_system%/domains/%domain%.error.log error;
+    gzip on;
+    gzip_min_length 1100;
+    gzip_buffers 4 32k;
+    gzip_types image/svg+xml svg svgz text/plain application/x-javascript text/xml text/css;
+    gzip_vary on;
+
+    include %home%/%user%/hestiacp_nodejs_config/web/%domain%/nodejs-app.conf;
+
+    location /error/ {
+        alias %home%/%user%/web/%domain%/document_errors/;
+    }
+
+    include %home%/%user%/hestiacp_nodejs_config/web/%domain%/nodejs-app-fallback.conf;
+
+    location ~ /\.ht {return 404;}
+    location ~ /\.svn/ {return 404;}
+    location ~ /\.git/ {return 404;}
+    location ~ /\.hg/ {return 404;}
+    location ~ /\.bzr/ {return 404;}
+}

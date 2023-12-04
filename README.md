@@ -17,7 +17,7 @@ When you create create the app with the installer it automatically create:
 3. Clone this repository:
 	```bash
 	cd ~/tmp
-	git clone https://github.com/JLFJ91/hestiacp-nodejs.git
+	git clone https://github.com/JLFdzDev/hestiacp-nodejs.git
 	cd hestiacp-nodejs
 	```
 
